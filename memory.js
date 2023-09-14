@@ -173,9 +173,9 @@ class Cache extends Memory
                             return i;
                         }
                     }
-                    let least_recent = this.block_use_history[3];
-                    this.block_use_history.splice(3, 1);
-                    this.block_use_history.unshift(least_recent);
+                    // let least_recent = this.block_use_history[3];
+                    // this.block_use_history.splice(3, 1);
+                    // this.block_use_history.unshift(least_recent);
                     return -1;
                 case POLICIES.random:
                     for (let i = 0; i < 4; i++) {

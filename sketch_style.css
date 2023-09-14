@@ -1,0 +1,74 @@
+:root {
+    --text-color: rgb(17, 17, 17);
+    --button-color: rgb(233, 233, 233);
+    --margem-esquerda: calc(50% - 544px);
+    --margem-topo: 56px;
+}
+
+#search_menu {
+    z-index: 10;
+    position: absolute;
+    top: calc(301px + var(--margem-topo));
+    left: calc(664px + var(--margem-esquerda));
+}
+
+#search_menu b {
+    color: var(--text-color);
+}
+
+#memory_menu {
+    display: flex;
+    z-index: 10;
+    position: absolute;
+    top: calc(624px + var(--margem-topo));
+    left: calc(24px + var(--margem-esquerda));
+}
+
+#insert_menu {
+    display: flex;
+    width: 320px;
+}
+
+#memory_menu, input {
+    width: 126px;
+}
+
+#update_method_button {
+    max-width: 64px;
+}
+
+#cache_menu {
+    z-index: 10;
+    position: absolute;
+    width: 32px;
+    top: calc(238px + var(--margem-topo));
+    left: calc(664px + var(--margem-esquerda));
+}
+
+.upper_menu {
+    display: flex;
+}
+
+.upper_menu input {
+    width: 126px;
+}
+
+#clean_reset_checkbox {
+    width: 13px;
+}
+
+button {
+    background-color: var(--button-color);
+}
+
+#theme_selector {
+    z-index: 10;
+    position: absolute;
+    top: calc(608px + var(--margem-topo));
+    left: calc(664px + var(--margem-esquerda));
+}
+
+.app {
+    margin-top: var(--margem-topo);
+    margin-left: var(--margem-esquerda);
+}

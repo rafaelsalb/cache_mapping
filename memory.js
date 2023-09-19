@@ -155,7 +155,16 @@ class Cache extends Memory {
     // USED ONLY FOR RANDOM ASSOCIATIVE MAPPING
     get_first_empty_line() {
         for (let i = 0; i < 4; i++) {
-            if (this.get_cell(i, 0).data === "") {
+            if (this.get_line(i).cells.length === 0 || this.get_cell(i, 0).data === "" ) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    get_first_empty_line_in_set(set) {
+        for (let i = set * SET_ASSOCIATIVE_WAYS; i < set * SET_ASSOCIATIVE_WAYS + SET_ASSOCIATIVE_WAYS; i++) {
+            if (this.get_line(i).cells.length === 0 || this.get_cell(i, 0).data === "") {
                 return i;
             }
         }
@@ -228,7 +237,7 @@ class Cache extends Memory {
     is_cache_hit_set_associative(tag, set, mem_block) {
         switch (curr_policy) {
             case POLICIES.LFU:
-                for (let i = set * 2; i < set * 2 + 2; i++) {
+                for (let i = set * SET_ASSOCIATIVE_WAYS; i < set * SET_ASSOCIATIVE_WAYS + SET_ASSOCIATIVE_WAYS; i++) {
                     let curr_line = this.get_line(i);
                     if (this.get_line(i).get_tag().data === tag) {
                         this.set_use_count[set][i % 2] += 1;
@@ -237,7 +246,7 @@ class Cache extends Memory {
                 }
                 return -1;
             case POLICIES.LRU:
-                for (let i = set * 2; i < set * 2 + 2; i++) {
+                for (let i = set * SET_ASSOCIATIVE_WAYS; i < set * SET_ASSOCIATIVE_WAYS + SET_ASSOCIATIVE_WAYS; i++) {
                     if (this.get_line(i).get_tag().data === tag) {
                         let curr_line = this.get_line(i);
                         let temp = i;
@@ -248,7 +257,7 @@ class Cache extends Memory {
                 }
                 return -1;
             case POLICIES.random:
-                for (let i = set * 2; i < set * 2 + 2; i++) {
+                for (let i = set * SET_ASSOCIATIVE_WAYS; i < set * SET_ASSOCIATIVE_WAYS + SET_ASSOCIATIVE_WAYS; i++) {
                     if (this.get_line(i).get_tag().data === tag) {
                         let curr_line = this.get_line(i);
                         return curr_line.equals(mem_block) ? i : -1;

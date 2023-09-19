@@ -3,6 +3,7 @@ const cell_height = 32;
 const mem_capacity_Bytes = 64;
 const block_size = 4;
 const cache_capacity_Bytes = 16;
+const SET_ASSOCIATIVE_WAYS = 2;
 
 const METHODS = {
     direct: 0,

@@ -280,16 +280,16 @@ class CPU {
             return this.memory.get_cell(tag, least_recent, index).data;
         }
         else if (curr_policy == POLICIES.random) {
-            let random_number = Math.floor(Math.random() * 2);
-            let first_empty_line = this.cache.get_first_empty_line(); 
-            let target_line = first_empty_line === -1 ? search_set * 2 + random_number : first_empty_line;
+            let random_number = Math.floor(Math.random() * SET_ASSOCIATIVE_WAYS);
+            let first_empty_line = this.cache.get_first_empty_line_in_set(search_set);
+            let target_line = first_empty_line === -1 ? search_set * SET_ASSOCIATIVE_WAYS + random_number : first_empty_line;
 
             for (let i = 0; i < 4; i++) {
                 this.cache.get_cell(target_line, i).set_data(this.memory.get_cell(tag, block, i).data);
             }
             this.cache.get_line(target_line).get_tag().set_data(search_tag);
             this.data_out = " => " + this.memory.get_cell(tag, block, index).data;
-            return this.memory.get_cell(this.memory.get_cell(tag, block, index).data);
+            return this.memory.get_cell(tag, block, index).data;
         }
 
     }

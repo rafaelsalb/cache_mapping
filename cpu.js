@@ -210,7 +210,7 @@ class CPU {
             }
             this.cache.get_line(least_recent).get_tag().set_data(parseInt(binary.slice(0, 4), 2));
             this.data_out = " => " + this.memory.get_cell(tag, block, index).data;
-            return this.memory.get_cell(tag, block, i).data;
+            return this.memory.get_cell(tag, block, index).data;
         }
         else if (curr_policy == POLICIES.random) {
             let empty_line = this.cache.get_first_empty_line();

@@ -72,20 +72,7 @@ class Memory {
     }
 
     get_cell(tag, block, index) {
-        console.log(this.blocks[tag * block_size + block].cells[index]);
         return this.blocks[tag * block_size + block].cells[index];
-    }
-
-    insert(address, data) {
-        const binary = Utils.toBinary(address, 6);
-        const tag = parseInt(binary.slice(0, 2), 2);
-        const block = parseInt(binary.slice(2, 4), 2);
-        const index = parseInt(binary.slice(4, 6), 2);
-
-        console.log(tag * block_size + block)
-        console.log(index + 1)
-
-        this.blocks[tag * block_size + block].cells[index + 1].data = data;
     }
 
     reset() {

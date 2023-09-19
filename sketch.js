@@ -2,11 +2,10 @@ let parent_div;
 let canvas;
 
 const memory = new Memory(mem_capacity_Bytes);
-const cache = new Cache(cache_capacity_Bytes)
+const cache = new Cache(cache_capacity_Bytes);
 const cpu = new CPU(memory, cache);
 
-function setup()
-{
+function setup() {
     parent_div = document.getElementById("canvas")
     canvas = createCanvas(cell_width * 17, 256 + cell_height * mem_capacity_Bytes / 4);
     canvas.parent("canvas");
@@ -14,8 +13,7 @@ function setup()
     document.getElementById("clean_reset_checkbox").value = fill_on_reset;
 }
 
-function draw()
-{
+function draw() {
     background(curr_color_scheme.background);
     push();
     translate(24, 24);
@@ -57,55 +55,45 @@ function draw()
     pop();
 }
 
-function search()
-{
+function search() {
     let address = document.getElementById("address").value;
-    if(address != null && address != "" && address >= 0 && address < mem_capacity_Bytes)
-    {
+    if (address != null && address != "" && address >= 0 && address < mem_capacity_Bytes) {
         cpu.read(Number(address));
     }
 }
 
-function update_method()
-{
+function update_method() {
     curr_method = parseInt(document.getElementById("method_selector").value);
     update_policy();
 
     document.getElementById("clean_reset_checkbox").style.visibility = "visible";
     document.getElementById("clean_reset_checkbox_label").style.visibility = "visible";
-    if (curr_method == METHODS.direct)
-    {
+    if (curr_method == METHODS.direct) {
         document.getElementById("policy_selector_region").style.visibility = "hidden";
     }
-    else
-    {
+    else {
         document.getElementById("policy_selector_region").style.visibility = "visible";
     }
-    if (curr_method == METHODS.set_associative)
-    {
+    if (curr_method == METHODS.set_associative) {
         fill_on_reset = false;
         document.getElementById("clean_reset_checkbox").style.visibility = "hidden";
         document.getElementById("clean_reset_checkbox_label").style.visibility = "hidden";
     }
 }
 
-function update_policy()
-{
+function update_policy() {
     curr_policy = parseInt(document.getElementById("policy_selector").value);
     memory.reset();
     cache.reset();
     cpu.reset();
 }
 
-function switch_color_scheme()
-{
-    if (curr_color_scheme == COLOR_SCHEMES.dark)
-    {
+function switch_color_scheme() {
+    if (curr_color_scheme == COLOR_SCHEMES.dark) {
         curr_color_scheme = COLOR_SCHEMES.light;
         document.documentElement.style.setProperty('--text-color', 'rgb(17, 17, 17)');
     }
-    else if (curr_color_scheme == COLOR_SCHEMES.light)
-    {
+    else if (curr_color_scheme == COLOR_SCHEMES.light) {
         curr_color_scheme = COLOR_SCHEMES.dark;
         document.documentElement.style.setProperty('--text-color', 'rgb(233, 233, 233)');
     }

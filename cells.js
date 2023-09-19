@@ -3,24 +3,26 @@ class Cell
     cell_color;
     data;
 
-    constructor(data)
+    constructor(data="", rand=false)
     {
-        this.data = data === "r" ? "0x" + Math.floor(Math.random() * 255).toString(16) : data;
+        this.data = rand ? "0x" + Math.floor(Math.random() * 255).toString(16) : data;
         this.cell_color = curr_color_scheme.secondary;
-    }
-
-    set_text(text)
-    {
-        this.data = text;
     }
 
     set_data(data)
     {
-        this.data = "0x" + data.toString(16);
+        this.data = data;
+    }
+
+    set_hex(data, format=true)
+    {
+        this.data = format ? "0x" : "";
+        this.data += data.toString(16);
     }
 
     draw()
     {
+        // TODO: APPLY USE OF cell_color PROPERLY
         strokeWeight(2);
         stroke(curr_color_scheme.borders);
         fill(curr_color_scheme.secondary);
@@ -66,4 +68,16 @@ class HeaderCell extends Cell
         text(this.data.upper_half, cell_width, cell_height * 0.05);
     }
     
+}
+
+class LabelCell extends Cell {
+    constructor(block_label) {
+        super(block_label.toString(16));
+    }
+}
+
+class TagCell extends Cell {
+    constructor() {
+        super();
+    }
 }

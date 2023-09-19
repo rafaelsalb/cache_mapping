@@ -202,8 +202,9 @@ class CPU {
             return this.memory.get_cell(tag, block, index).data;
         }
         else if (curr_policy == POLICIES.LRU) {
-
-            let least_recent = cache.block_use_history[3];
+            let first_empty_line = cache.get_first_empty_line();
+            let least_recent = first_empty_line === -1 ? cache.block_use_history[3] : first_empty_line;
+            console.log(cache.block_use_history);
 
             for (let i = 0; i < 4; i++) {
                 this.cache.get_cell(least_recent, i).set_data(this.memory.get_cell(tag, block, i).data);

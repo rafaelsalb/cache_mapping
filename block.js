@@ -27,6 +27,10 @@ class MemoryBlock {
         return is_equal;
     }
 
+    is_empty() {
+        return this.cells[0].data === "";
+    }
+
     // TODO:
     reset() {
 

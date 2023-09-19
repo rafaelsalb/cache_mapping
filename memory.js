@@ -270,7 +270,7 @@ class Cache extends Memory {
     reset() {
         this.clear();
         this.block_use_count = [0, 0, 0, 0];
-        this.block_use_history = [0, 1, 2, 3];
+        this.block_use_history = [3, 2, 1, 0];
         this.set_use_count = [
             [0, 0],
             [0, 0]

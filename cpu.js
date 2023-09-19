@@ -195,11 +195,9 @@ class CPU {
 
             // TODO: MAKE INTO OWN "write_block_to_line" METHOD
             for (let i = 0; i < 4; i++) {
-                // this.memory.blocks[tag * block_size + block].cells[i].cell_color = color(127, 64, 64);
-                // this.cache.blocks[least_used].cells[i] = this.memory.blocks[tag * block_size + block].cells[i];
                 this.cache.get_cell(least_used, i).set_data(this.memory.get_cell(tag, block, i).data);
             }
-            this.cache.get_line(least_used).get_tag().set_hex(parseInt(binary.slice(0, 4), 2));
+            this.cache.get_line(least_used).get_tag().set_data(parseInt(binary.slice(0, 4), 2));
             this.data_out = " => " + this.memory.get_cell(tag, block, index).data;
             return this.memory.get_cell(tag, block, index).data;
         }

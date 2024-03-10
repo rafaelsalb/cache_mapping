@@ -248,7 +248,10 @@ class CPU {
 
         let line = this.cache.is_cache_hit(address, this.memory.get_block(tag, block));
 
+        this.memory_color_manager.memory_read(tag * block_size + block, index);
+
         if (line != -1) {
+            this.memory_color_manager.cache_hit(line, index);
             this.data_out = " => " + this.cache.get_cell(line, index).data;
             this.is_cache_hit = true;
             return this.cache.get_cell(line, index).data;
@@ -262,6 +265,7 @@ class CPU {
             let least_used = Math.min.apply(Math, cache.set_use_count[search_set]);
             least_used = cache.set_use_count[search_set].indexOf(least_used);
             target_line = least_used + search_set * 2;
+            this.memory_color_manager.cache_miss(target_line, index);
 
             cache.set_use_count[search_set][least_used] = 1;
 
@@ -279,6 +283,7 @@ class CPU {
         else if (curr_policy == POLICIES.LRU) {
             let least_recent = cache.set_use_history[search_set][1];
             target_line = least_recent + search_set * 2;
+            this.memory_color_manager.cache_miss(target_line, index);
 
             for (let i = 0; i < 4; i++) {
                 this.cache.get_cell(target_line, i).set_data(this.memory.get_cell(tag, block, i).data);
@@ -295,6 +300,7 @@ class CPU {
             let random_number = Math.floor(Math.random() * SET_ASSOCIATIVE_WAYS);
             let first_empty_line = this.cache.get_first_empty_line_in_set(search_set);
             let target_line = first_empty_line === -1 ? search_set * SET_ASSOCIATIVE_WAYS + random_number : first_empty_line;
+            this.memory_color_manager.cache_miss(target_line, index);
 
             for (let i = 0; i < 4; i++) {
                 this.cache.get_cell(target_line, i).set_data(this.memory.get_cell(tag, block, i).data);

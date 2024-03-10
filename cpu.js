@@ -187,7 +187,10 @@ class CPU {
 
         let line = this.cache.is_cache_hit(address, this.memory.get_block(tag, block));
 
+        this.memory_color_manager.memory_read(tag * block_size + block, index);
+
         if (line != -1) {
+            this.memory_color_manager.cache_hit(line, index);
             this.data_out = " => " + this.cache.get_cell(line, index).data;
             this.is_cache_hit = true;
             return this.cache.get_cell(line, index).data;
@@ -196,6 +199,7 @@ class CPU {
         if (curr_policy == POLICIES.LFU) {
             let least_used = Math.min.apply(Math, cache.block_use_count);
             least_used = cache.block_use_count.indexOf(least_used);
+            this.memory_color_manager.cache_miss(least_used, index);
 
             cache.block_use_count[least_used] = 1;
 
@@ -210,7 +214,7 @@ class CPU {
         else if (curr_policy == POLICIES.LRU) {
             let first_empty_line = cache.get_first_empty_line();
             let least_recent = first_empty_line === -1 ? cache.block_use_history[3] : first_empty_line;
-            console.log(cache.block_use_history);
+            this.memory_color_manager.cache_miss(least_recent, index);
 
             for (let i = 0; i < 4; i++) {
                 this.cache.get_cell(least_recent, i).set_data(this.memory.get_cell(tag, block, i).data);
@@ -222,6 +226,7 @@ class CPU {
         else if (curr_policy == POLICIES.random) {
             let empty_line = this.cache.get_first_empty_line();
             let line = empty_line === -1 ? Math.floor(Math.random() * 4) : empty_line;
+            this.memory_color_manager.cache_miss(line, index);
 
             for (let i = 0; i < 4; i++) {
                 this.cache.get_cell(line, i).set_data(this.memory.get_cell(tag, block, i).data);

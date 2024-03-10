@@ -25,7 +25,7 @@ class Cell
         // TODO: APPLY USE OF cell_color PROPERLY
         strokeWeight(2);
         stroke(curr_color_scheme.borders);
-        fill(curr_color_scheme.secondary);
+        fill(this.cell_color);
         rect(0, 0, cell_width, cell_height);
 
         strokeWeight(0);

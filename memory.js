@@ -95,10 +95,6 @@ class Memory {
         const block = parseInt(binary.slice(2, 4), 2);
         const index = parseInt(binary.slice(4, 6), 2);
 
-        for (let i = 0; i < this.blocks[0].cells.length; i++) {
-            this.blocks[tag * block_size + block].cells[i].cell_color = 200;
-        }
-
         return this.blocks[tag * block_size + block].cells[index + 1];
     }
 

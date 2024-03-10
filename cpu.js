@@ -4,10 +4,12 @@ class CPU {
     address_in;
     data_out;
     is_cache_hit;
+    memory_color_manager;
 
     constructor(memory, cache) {
         this.memory = memory;
         this.cache = cache;
+        this.memory_color_manager = new MemoryColorManager(memory, cache);
     }
 
     draw() {
@@ -156,7 +158,10 @@ class CPU {
         this.address_in = binary + " => ";
         this.is_cache_hit = false;
 
+        this.memory_color_manager.memory_read(block, index);
+
         if (this.cache.is_cache_hit(address, this.memory.get_block(tag, block))) {
+            this.memory_color_manager.cache_hit(block, index);
             this.data_out = " => " + this.cache.get_cell(block, index).data;
             this.is_cache_hit = true;
             return this.cache.get_cell(block, index).data;
@@ -165,6 +170,7 @@ class CPU {
         for (let i = 0; i < 4; i++) {
             this.cache.get_cell(block, i).data = this.memory.get_cell(tag, block, i).data;
         }
+        this.memory_color_manager.cache_miss(block, index);
         this.cache.get_line(block).get_tag().set_data(tag);
         this.data_out = " => " + this.memory.get_cell(tag, block, index).data;
         return this.memory.get_cell(tag, block, index).data;
@@ -297,6 +303,8 @@ class CPU {
 
     reset() {
         this.address_in = null;
+        this.memory_color_manager.reset_cache();
+        this.memory_color_manager.reset_memory();
 
         if (fill_on_reset) {
             for (let i = 0; i < cache_capacity_Bytes / block_size; i++) {
@@ -317,5 +325,4 @@ class CPU {
             }
         }
     }
-
 }

@@ -158,7 +158,7 @@ class CPU {
         this.address_in = binary + " => ";
         this.is_cache_hit = false;
 
-        this.memory_color_manager.memory_read(block, index);
+        this.memory_color_manager.memory_read(tag * block_size + block, index);
 
         if (this.cache.is_cache_hit(address, this.memory.get_block(tag, block))) {
             this.memory_color_manager.cache_hit(block, index);
@@ -309,7 +309,6 @@ class CPU {
             this.data_out = " => " + this.memory.get_cell(tag, block, index).data;
             return this.memory.get_cell(tag, block, index).data;
         }
-
     }
 
     reset() {

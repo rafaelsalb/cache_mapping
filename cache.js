@@ -5,6 +5,8 @@ class Cache extends Memory {
     set_use_count;
     set_use_history;
 
+    counter;
+
     constructor(capacity) {
         super();
         this.capacity = capacity;
@@ -27,6 +29,7 @@ class Cache extends Memory {
             [1, 0],
             [1, 0]
         ];
+        this.counter = new Counter();
     }
 
     clear() {
@@ -171,4 +174,25 @@ class Cache extends Memory {
         ];
     }
 
+    draw() {
+        super.draw();
+        let counters = null;
+        let highlight_idx = null;
+        if (curr_method === METHODS.associative) {
+            switch (curr_policy) {
+                case POLICIES.LFU:
+                    counters = this.block_use_count;
+                    let min = Math.min(...counters);
+                    highlight_idx = counters.findIndex(i => i === min);
+                    console.log(highlight_idx);
+                    break;
+            }
+        }
+        if (counters !== null) {
+            this.counter.draw(
+                counters,
+                highlight_idx
+            );
+        }
+    }
 }

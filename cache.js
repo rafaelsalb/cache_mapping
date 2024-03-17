@@ -181,7 +181,7 @@ class Cache extends Memory {
         if (curr_method === METHODS.associative) {
             switch (curr_policy) {
                 case POLICIES.LFU:
-                    counters = this.block_use_count;
+                    counters = [...this.block_use_count];
                     let min = Math.min(...counters);
                     highlight_idx = counters.findIndex(i => i === min);
                     console.log(highlight_idx);
